@@ -21,6 +21,16 @@ bot.isDj = function() {
     return result;
 };
 
+function roomScore(userid) {
+    var result = null;
+    db.get("SELECT score FROM users WHERE id = '" + userid + "';", function(err, sqldata) {
+        if (typeof(sqldata) != 'undefined') {
+            result = sqldata.score;
+         }
+    });
+
+    return result;
+}
 
 bot.on('endsong', function(data) {
    var Query1 = "INSERT OR IGNORE INTO users (id, score) VALUES ('" + 
@@ -42,6 +52,16 @@ bot.on('registered', function(data){
          }
       });
    }
+});
+
+bot.on('add_dj', function(data) {
+    var name   = data.user.name;
+    var userid = data.user.userid;
+    var score  = roomScore(userid) || 0;
+
+    if (score == 0) {
+        bot.speak(name + ", this room is dedicated to swing jazz for dancers.");
+    }
 });
 
 bot.on('speak', function (data) {
