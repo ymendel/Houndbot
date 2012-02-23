@@ -55,12 +55,14 @@ bot.on('registered', function(data){
 });
 
 bot.on('add_dj', function(data) {
-    var name   = data.user.name;
-    var userid = data.user.userid;
-    var score  = roomScore(userid) || 0;
+    for (var i = 0; i < data.user.length; i++) {
+        var name   = data.user[i].name;
+        var userid = data.user[i].userid;
+        var score  = roomScore(userid) || 0;
 
-    if (score == 0) {
-        bot.speak(name + ", this room is dedicated to swing jazz for dancers.");
+        if (score == 0) {
+            bot.speak(name + ", this room is dedicated to swing jazz for dancers.");
+        }
     }
 });
 
