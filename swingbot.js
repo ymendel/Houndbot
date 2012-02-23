@@ -107,14 +107,8 @@ bot.on('speak', function (data) {
    }
 
    if(['mystats', 'my stats'].include(command)){
-      //Query for user
-      db.get("SELECT score FROM users WHERE id = '" + data.userid + "';", function(err, sqldata){
-         if(typeof(sqldata)!='undefined'){
-            bot.speak(data.name + ", you have " + sqldata.score + " points from this room");
-         }
-         else
-            bot.speak(data.name + ", you have no points from this room");
-      });
+      var score = roomScore(userid) || 'no';
+      bot.speak(data.name + ", you have " + score + " points from this room");
    }
 
    if(command.match(/^ban /)){
